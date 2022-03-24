@@ -1,0 +1,16 @@
+{
+  "name": "Avataaars",
+  "version": "1.0.0",
+  "description": "Generate unique avataars from within Figjam",
+  "main": "code.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "author": "James McKennay",
+  "license": "MIT",
+  "devDependencies": {
+    "@figma/plugin-typings": "*",
+    "@figma/widget-typings": "*",
+    "typescript": "*"
+  }
+}
