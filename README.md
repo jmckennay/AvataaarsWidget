@@ -1,36 +1,61 @@
-Below are the steps to get your widget running. You can also find instructions at:
+# create-widget-app
 
-https://www.figma.com/widget-docs/setup-guide/
+Template app that creates a widget & react iframe.
 
-This widget template uses Typescript and NPM, two standard tools in creating JavaScript applications.
+Code organization:
 
-First, download Node.js which comes with NPM. This will allow you to install TypeScript and other
-libraries. You can find the download link here:
+| dir / path               | description                          |
+| ------------------------ | ------------------------------------ |
+| ui-src/                  | This is where the iframe code lives  |
+| ui-src/index.html        | Main entry point for the iframe code |
+| ui-src/tsconfig.json     | tsconfig for the iframe code         |
+| widget-src/              | This is where the widget code lives  |
+| widget-src/code.tsx      | Main entry point for the widget code |
+| widget-src/tsconfig.json | tsconfig for the widget code         |
+| dist/                    | Built output goes here               |
 
-https://nodejs.org/en/download/
+- The widget code just uses esbuild to bundle widget-src/code.tsx into one file.
+- The iframe code uses a tool called [vite](https://vitejs.dev/) to bundle everything into a single html file
 
-Next, install TypeScript and the latest type definitions by running:
+## Getting started
 
-npm install
+### One-time setup
+1. Make a copy of this folder
+2. Update manifest.json, package.json and package-lock.json where it says `WidgetTemplate`
+3. Install the required dependencies `npm ci`
 
-If you are familiar with JavaScript, TypeScript will look very familiar. In fact, valid JavaScript code
-is already valid Typescript code.
 
-TypeScript adds type annotations to variables. This allows code editors such as Visual Studio Code
-to provide information about the Figma API while you are writing code, as well as help catch bugs
-you previously didn't notice.
+### Importing your widget
+1. "Import widget from manifest"
+2. Build code `npm run build`
+3. Choose your manifest
 
-For more information, visit https://www.typescriptlang.org/
 
-Using TypeScript requires a compiler to convert TypeScript (code.ts) into JavaScript (code.js)
-for the browser to run.
+## Development
 
-We recommend writing TypeScript code using Visual Studio code:
+The quickest way to build your widget during development is by running:
 
-1. Download Visual Studio Code if you haven't already: https://code.visualstudio.com/.
-2. Open this directory in Visual Studio Code.
-3. Compile TypeScript to JavaScript: Run the "Terminal > Run Build Task..." menu item,
-   then select "tsc: watch - tsconfig.json". You will have to do this again every time
-   you reopen Visual Studio Code.
+```sh
+npm run dev
+```
 
-That's it! Visual Studio Code will regenerate the JavaScript file every time you save.
+This command starts the follow in watch mode:
+1. typechecking for widget-src & ui-src
+2. bundling for widget-src & ui-src
+3. starts a vite dev server that servesr ui-src/index.html at localhost:3000
+
+## Other scripts
+
+| script                   | description                                                             |
+| ------------------------ | ----------------------------------------------------------------------- |
+| npm run build            | one-off full build of both the iframe and widget                        |
+| npm run build:production | one-off full production (minified) build of both the iframe and widget  |
+| npm run build:main       | one-off build of the widget code                                        |
+| npm run build:ui         | one-off build of the iframe code                                        |
+| npm run tsc              | typecheck both the iframe and widget                                    |
+
+# Issues / Bugs
+
+For more information about widgets, please visit the widget documentation at https://www.figma.com/widget-docs.
+
+If you find anything bugs or have any questions, please reach out via https://www.figma.com/widget-docs/get-help/.
