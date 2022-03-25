@@ -4,7 +4,7 @@ import './App.css'
 function App() {
 
   useEffect(() => {
-    fetch(`https://avatars.dicebear.com/api/avataaars/:${Math.random()*100}.svg`)
+    fetch(`https://avatars.dicebear.com/api/avataaars/:${Math.random()*100}.svg?style=circle`)
       .then(res => res.text())
       .then(result => {
         if (typeof parent !== undefined) {
