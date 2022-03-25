@@ -4,7 +4,7 @@ import './App.css'
 function App() {
 
   useEffect(() => {
-    fetch("https://avatars.dicebear.com/api/big-smile/hello.svg")
+    fetch(`https://avatars.dicebear.com/api/avataaars/:${Math.random()*100}.svg`)
       .then(res => res.text())
       .then(result => {
         if (typeof parent !== undefined) {
@@ -16,14 +16,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Hello</h1>
-      <button
-        onClick={() => {
-          parent?.postMessage?.({ pluginMessage: 'close' }, '*')
-        }}
-      >
-        Close
-      </button>
+      <h1>Loading</h1>
     </div>
   )
 }
