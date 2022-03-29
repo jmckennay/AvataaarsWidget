@@ -17,12 +17,12 @@ const randomIconSrc = `
 function Widget() {
   const [text, setText] = useSyncedState("text", loadingIconSrc)
   const propertyMenu: WidgetPropertyMenuItem[] = [
-    {
-      tooltip: 'Randomise',
-      propertyName: 'randomise',
-      itemType: 'action',
-      icon: randomIconSrc,
-    },
+    // {
+    //   tooltip: 'Randomise',
+    //   propertyName: 'randomise',
+    //   itemType: 'action',
+    //   icon: randomIconSrc,
+    // },
     {
       tooltip: 'Edit',
       propertyName: 'edit',
@@ -47,7 +47,7 @@ function Widget() {
     }
     if (propertyName === 'edit') {
       waitForTask(new Promise(resolve => {
-        figma.showUI(__html__, { visible: true, height: 300, width: 200 })
+        figma.showUI(__html__, { visible: true, height: 400, width: 200 })
         // figma.ui.postMessage({ type: 'networkRequest' })
   
         figma.ui.onmessage = async (msg) => {
@@ -64,7 +64,7 @@ function Widget() {
   useEffect(() => {
     if(firstStart){
       waitForTask(new Promise(resolve => {
-        figma.showUI(__html__, { visible: true, height: 300, width: 200 })
+        figma.showUI(__html__, { visible: true, height: 395, width: 200 })
         // figma.ui.postMessage({ type: 'networkRequest' })
   
         figma.ui.onmessage = async (msg) => {
