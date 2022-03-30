@@ -5,6 +5,8 @@ import { IoMdGlasses } from 'react-icons/io'
 import { AiFillPicture } from 'react-icons/ai'
 import { GiMustache, GiEyelashes, GiLips } from 'react-icons/gi'
 import { Disclosure, Tip, Title, Checkbox, Button, Label, Input, Select, Icon} from 'react-figma-plugin-ds'
+import { Hue, Saturation } from 'react-color/lib/components/common'
+import ReactTooltip from 'react-tooltip'
 import "react-figma-plugin-ds/figma-plugin-ds.css";
 import './App.css'
 
@@ -65,9 +67,11 @@ function getRandomSeed():number {
 }
 
 function getAvataar(options: any) {
+  // options.seed = options.seed.length === 0 ? options.seed : getRandomSeed()
   let uri:string = `https://avatars.dicebear.com/api/avataaars/:${options.seed}.svg?`
-  for (const [key, value] of Object.entries(options)) {
+  for (let [key, value] of Object.entries(options)) {
     if( value !== "random" && value !== undefined && key !== "seed" ) {
+      if (key === "backgroundColor") {value = `%23${value}`}
       uri+=`&${key}=${value}`
     }
   }
@@ -85,6 +89,7 @@ const setAll = (obj: any, val: any) => Object.keys(obj).forEach(k => obj[k] = va
 function App() {
   const [selectedOptions, setSelectedOptions] = useState<iSelectedOptions>({
     seed: undefined,
+    // backgroundColor: "5AC2FF",
     style: "circle",
   });
 
@@ -94,10 +99,14 @@ function App() {
     setSelectedOptions(localOptions)
   }
 
+  const handleChangeComplete = (color:any) => {
+    updateSelectedOption("color", color.hex.substr(1,color.hex.length))
+  }
+
   useEffect(() => {
     window.addEventListener("message", (msg: MessageEvent) => {
       setSelectedOptions(msg.data.pluginMessage.options)
-      if(selectedOptions.seed === undefined){
+      if(msg.data.pluginMessage.options.seed === undefined){
         updateSelectedOption("seed", getRandomSeed())
       }
       if(msg.data.pluginMessage.type === "randomise"){
@@ -109,11 +118,11 @@ function App() {
   return (
     <div className='App'>
       <div className="row">
-        <FaSeedling />
+        <FaSeedling data-tip="Random Seed" />
         <Input
           className="full-width"
-          defaultValue={selectedOptions.seed}
-          onChange={(v) => updateSelectedOption("seed", Number.parseFloat(v))}
+          defaultValue={decodeURI(selectedOptions.seed ? selectedOptions.seed.toString() : "")}
+          onChange={(v) => updateSelectedOption("seed", encodeURI(v))}
           placeholder="Random Seed"
         />
       </div>
@@ -122,7 +131,7 @@ function App() {
         return (
           <>
             <div className="row">
-              <Icon />
+              <Icon  data-tip={dropdown.placeholder} />
               <Select 
                 defaultValue={selectedOptions[dropdown.title]}
                 onChange={e => updateSelectedOption(dropdown.title, e.value)}
@@ -141,6 +150,7 @@ function App() {
           onClick={() => getAvataar(selectedOptions)}
         >Generate Avataaar</Button>
       </div>
+      <ReactTooltip place="left" />
     </div>
   )
 }

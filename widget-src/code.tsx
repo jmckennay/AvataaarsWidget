@@ -66,6 +66,7 @@ function Widget() {
         figma.showUI(__html__, { visible: true, height: 400, width: 200 })
         figma.ui.postMessage({ type: 'customise', options: selectedOptions })
         figma.ui.onmessage = async (msg) => {
+          console.log(msg.options)
           setAvataaar(msg.avataaar)
           setSelectedOptions(msg.options)
           resolve(null)
@@ -89,7 +90,6 @@ function Widget() {
           setSelectedOptions(msg.options)
           resolve(null)
           setOpacity(1)
-          
         }
       }))
     }

@@ -6,6 +6,7 @@
   display: grid;
   grid-template-columns: 24px 1fr;
   align-items: center;
+  height: 30px;
 }
 
 .full-width {
@@ -15,7 +16,7 @@
 
 .push {
   width: 100%;
-  height: 33px;
+  height: 38px;
 }
 
 .fixed-bottom {
