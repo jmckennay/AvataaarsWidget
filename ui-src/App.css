@@ -13,7 +13,18 @@
   justify-content: center;
 }
 
-.spacer {
+.push {
   width: 100%;
-  height: 8px;
+  height: 33px;
+}
+
+.fixed-bottom {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 8px;
+  background: white;
+  border-top: 1px solid #e1e1e1;
 }
