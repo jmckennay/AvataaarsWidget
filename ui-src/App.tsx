@@ -76,10 +76,10 @@ function getAvataar(options: any) {
     }
   }
   fetch(uri)
-  .then(res => res.text())
-  .then(res => {
+  .then(svg => svg.text())
+  .then(svg => {
     if (typeof parent !== undefined) {
-      parent?.postMessage?.({ pluginMessage: { avataaar: res, options: options} }, '*')
+      parent?.postMessage?.({ pluginMessage: { avataaar: svg , options: options} }, '*')
     }
   })
 }

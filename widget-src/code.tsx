@@ -30,6 +30,12 @@ function Widget() {
     }
   );
 
+  const updateSelectedOption = (key: string, value: any) => {
+    let localOptions = selectedOptions
+    localOptions[key] = value
+    setSelectedOptions(localOptions)
+  }
+
   const propertyMenu: WidgetPropertyMenuItem[] = [
     {
       tooltip: 'Randomise',
@@ -46,54 +52,46 @@ function Widget() {
   ]
   
   usePropertyMenu(propertyMenu, ({ propertyName }) => {
-    if (propertyName === 'randomise') {
-      setOpacity(0.5)
-      waitForTask(new Promise(resolve => {
-        figma.showUI(__html__, { visible: false })
+    return new Promise( (resolve) => {
+      if (propertyName === 'randomise') {
+        setOpacity(0.5)
+        figma.showUI(__html__, {visible: false})
         setAll(selectedOptions, undefined)
-        selectedOptions.style = "circle"
+        updateSelectedOption("style", "circle")
         figma.ui.postMessage({ type: 'randomise', options: selectedOptions })
-        figma.ui.onmessage = async (msg) => {
-          setAvataaar(msg.avataaar)
-          setSelectedOptions(msg.options)
-          resolve(null)
-          setOpacity(1)
-        }
-      }))
-    }
-    if (propertyName === 'customise') {
-      waitForTask(new Promise(resolve => {
+      }
+      if (propertyName === 'customise') {
         figma.showUI(__html__, { visible: true, height: 400, width: 200 })
         figma.ui.postMessage({ type: 'customise', options: selectedOptions })
-        figma.ui.onmessage = async (msg) => {
-          console.log(msg.options)
-          setAvataaar(msg.avataaar)
-          setSelectedOptions(msg.options)
-          resolve(null)
-          setOpacity(1)
-        }
-      }))
-    }
+      }
+      figma.ui.onmessage = async (msg) => {
+        setAvataaar(msg.avataaar)
+        setSelectedOptions(msg.options)
+        setOpacity(1)
+        figma.ui.close()
+        setOpacity(1)
+        resolve()
+      }
+    })
   })
 
   useEffect(() => {
     if(firstRun){
-      setFirstRun(false);
-      setOpacity(.5)
       waitForTask(new Promise(resolve => {
+        setFirstRun(false);
+        setOpacity(.5)
         figma.showUI(__html__, { visible: false })
         setAll(selectedOptions, undefined)
         selectedOptions.style = "circle"
         figma.ui.postMessage({ type: 'randomise', options: selectedOptions })
-        figma.ui.onmessage = async (msg) => {
+        figma.ui.onmessage = (msg):void => {
           setAvataaar(msg.avataaar)
           setSelectedOptions(msg.options)
-          resolve(null)
           setOpacity(1)
+          resolve(null)
         }
       }))
     }
-    
   })
 
 
@@ -106,7 +104,6 @@ function Widget() {
       padding={8}
       cornerRadius={8}
       spacing={12}
-
     >
       <SVG src={avataaar} width={200} height={200} opacity={opacity}></SVG>
     </AutoLayout>
