@@ -4,18 +4,18 @@ import { FaHatCowboy, FaSeedling, FaTshirt, FaRegEye } from 'react-icons/fa'
 import { IoMdGlasses } from 'react-icons/io'
 import { AiFillPicture } from 'react-icons/ai'
 import { GiMustache, GiEyelashes, GiLips } from 'react-icons/gi'
-import { Disclosure, Tip, Title, Checkbox, Button, Label, Input, Select, Icon} from 'react-figma-plugin-ds'
-import { Hue, Saturation } from 'react-color/lib/components/common'
+import { Disclosure, Button, Input, Select} from 'react-figma-plugin-ds'
 import ReactTooltip from 'react-tooltip'
 import "react-figma-plugin-ds/figma-plugin-ds.css";
 import './App.css'
 
-interface iDropdown {
+interface iCustomisation {
   title: string
   placeholder: string
   icon: any
   options: any
   dependantOn?: string
+  probability?: string
 }
 
 interface iSelectedOptions {
@@ -38,15 +38,15 @@ enum mouths { concerned, default, disbelief, eating, grimace, sad, scream, screa
 enum skinTones { tanned, yellow, pale, light, brown, darkBrown, black }
 enum graphics { skullOutline, skull, resist, pizza, hola, diamond, deer, cumbia, bear, bat }
 
-const dropdowns: iDropdown[] = [
+const customisations: iCustomisation[] = [
   {title: "style", placeholder: "Style", icon: MdStyle, options: styles},
   {title: "top", placeholder:"Hats and hair", icon: FaHatCowboy, options: tops},
-  {title: "hatColor", placeholder:"Hat Color", icon: MdColorLens, options: hatColors, dependantOn: "top"},
+  {title: "hatColor", placeholder:"Hat Color", icon: MdColorLens, options: hatColors, dependantOn: "top", probability: "topChance"},
   {title: "hairColor", placeholder:"Hair Color", icon: MdColorLens, options: hairColors, dependantOn: "top"},
-  {title: "accessories", placeholder:"Glasses", icon: IoMdGlasses, options: accessories},
+  {title: "accessories", placeholder:"Glasses", icon: IoMdGlasses, options: accessories, probability: "accessoriesChance"},
   {title: "accessoriesColor", placeholder:"Glasses Color", icon: MdColorLens, options: accessoryColors},
-  {title: "facialHair", placeholder:"Beards", icon: GiMustache, options: facialHairs},
-  {title: "facialHairColor", placeholder:"Beard Color", icon: MdColorLens, options: facialHairColors},
+  {title: "facialHair", placeholder:"Beards", icon: GiMustache, options: facialHairs, probability: "facialHairChance"},
+  {title: "facialHairColor", placeholder:"Beard Color", icon: MdColorLens, options: facialHairColors, dependantOn: "facialHair"},
   {title: "clothes", placeholder:"Clothes", icon: FaTshirt, options: clothes},
   {title: "clothesColor", placeholder:"Clothes Color", icon: MdColorLens, options: clothesColors},
   {title: "eyes", placeholder:"Eyes", icon: FaRegEye, options: eyes},
@@ -66,12 +66,21 @@ function getRandomSeed():number {
   return Math.floor(Math.random() * (10000 - 1000) + 1000)
 }
 
-function getAvataar(options: any) {
-  // options.seed = options.seed.length === 0 ? options.seed : getRandomSeed()
+function getCustomisation(title: string):iCustomisation{
+  return customisations.filter(customisation => {
+    return customisation.title === title
+  })[0]
+}
+
+function getAvataar(options: any): void {
   let uri:string = `https://avatars.dicebear.com/api/avataaars/:${options.seed}.svg?`
   for (let [key, value] of Object.entries(options)) {
+    const customisation = getCustomisation(key);
     if( value !== "random" && value !== undefined && key !== "seed" ) {
       if (key === "backgroundColor") {value = `%23${value}`}
+      if(customisation.probability) {
+        uri+=`&${customisation.probability}=100`
+      }
       uri+=`&${key}=${value}`
     }
   }
@@ -84,12 +93,9 @@ function getAvataar(options: any) {
   })
 }
 
-const setAll = (obj: any, val: any) => Object.keys(obj).forEach(k => obj[k] = val);
-
 function App() {
   const [selectedOptions, setSelectedOptions] = useState<iSelectedOptions>({
     seed: undefined,
-    // backgroundColor: "5AC2FF",
     style: "circle",
   });
 
@@ -97,10 +103,6 @@ function App() {
     let localOptions = selectedOptions
     localOptions[key] = value
     setSelectedOptions(localOptions)
-  }
-
-  const handleChangeComplete = (color:any) => {
-    updateSelectedOption("color", color.hex.substr(1,color.hex.length))
   }
 
   useEffect(() => {
@@ -117,6 +119,7 @@ function App() {
 
   return (
     <div className='App'>
+      <Disclosure label="About Avataars">Hello</Disclosure>
       <div className="row">
         <FaSeedling data-tip="Random Seed" />
         <Input
@@ -126,7 +129,7 @@ function App() {
           placeholder="Random Seed"
         />
       </div>
-      {dropdowns.map((dropdown,i) => {
+      {customisations.map((dropdown,i) => {
         const Icon = dropdown.icon;
         return (
           <>
@@ -135,7 +138,6 @@ function App() {
               <Select 
                 defaultValue={selectedOptions[dropdown.title]}
                 onChange={e => updateSelectedOption(dropdown.title, e.value)}
-                onExpand={function _(){}}
                 options={getOptions(dropdown.options)}
                 placeholder={dropdown.placeholder}
               />

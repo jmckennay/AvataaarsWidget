@@ -19,9 +19,7 @@
   "author": "Figma",
   "license": "MIT License",
   "dependencies": {
-    "@types/react-color": "^3.0.6",
     "react": "^17.0.0",
-    "react-color": "^2.19.3",
     "react-dom": "^17.0.0",
     "react-figma-plugin-ds": "^2.3.0",
     "react-icons": "^4.3.1",
