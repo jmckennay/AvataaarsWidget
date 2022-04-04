@@ -7,6 +7,10 @@
     "strict": true,
     "typeRoots": [
       "../node_modules/@figma"
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "icons": ["widget-src/icons"]
+    }
   }
 }
