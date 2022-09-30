@@ -1,7 +1,7 @@
 {
   "name": "Avataaars",
   "id": "1091591152416708363",
-  "api": "1.0.1",
+  "api": "1.0.0",
   "editorType": ["figjam", "figma"],
   "permissions": [],
   "containsWidget": true,
