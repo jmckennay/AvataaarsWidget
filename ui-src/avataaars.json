@@ -14,6 +14,7 @@
             "placeholder": "Hats and hair",
             "icon": "FaHatCowboy",
             "options": [
+                "none",
                 "random",
                 "longHair",
                 "shortHair",
@@ -52,7 +53,8 @@
                 "winterHat02",
                 "winterHat03",
                 "winterHat04"
-            ]
+            ],
+            "probability": "topChance"
         },
         {
             "name": "hatColor",
@@ -108,6 +110,7 @@
             "placeholder": "Glasses",
             "icon": "IoMdGlasses",
             "options": [
+                "none",
                 "random",
                 "kurt",
                 "prescription01",
@@ -149,6 +152,7 @@
             "placeholder": "Beards",
             "icon": "GiMustache",
             "options": [
+                "none",
                 "random",
                 "medium",
                 "beardMedium",

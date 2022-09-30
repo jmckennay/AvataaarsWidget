@@ -62,11 +62,13 @@ function getAvataaar(options: any): void {
   let uri:string = `https://avatars.dicebear.com/api/avataaars/:${options.seed}.svg?`
   for (let [key, value] of Object.entries(options)) {
     const customisation = getCustomisation(key);
-    if( value !== "random" && value !== undefined && key !== "seed" ) {
+    if( value !== "random" && value !== "none" && value !== undefined && key !== "seed" ) {
       if(customisation.probability) {
         uri+=`&${customisation.probability}=100`
       }
       uri+=`&${key}=${value}`
+    } else if( value == "none") {
+      uri+=`&${customisation.probability}=0`
     }
   }
   fetch(uri)
