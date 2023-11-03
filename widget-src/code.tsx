@@ -1,5 +1,5 @@
 const { widget } = figma
-const { AutoLayout, SVG, Text, useSyncedState, useEffect, waitForTask, usePropertyMenu } = widget
+const { AutoLayout, SVG, Text, useSyncedState, useEffect, waitForTask, usePropertyMenu, useStickable } = widget
 
 const biggerIconSrc = ` <svg width="36" height="36" version="1.1" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg"> <g fill="#fff"> <path d="m840 337.5h-152.5c-10 0-17.5 5-20 15-2.5 7.5-2.5 17.5 5 25l42.5 42.5-65 65c-5 5-7.5 10-7.5 15s2.5 12.5 7.5 15l35 35c5 5 10 7.5 15 7.5s12.5-2.5 15-7.5l65-65 42.5 42.5c5 5 10 7.5 15 7.5 2.5 0 5 0 7.5-2.5 7.5-2.5 15-12.5 15-20v-152.5c2.5-12.5-7.5-22.5-20-22.5z"/> <path d="m485 420 42.5-42.5c7.5-7.5 7.5-17.5 5-25s-12.5-15-20-15h-152.5c-12.5 0-22.5 10-22.5 22.5v152.5c0 10 5 17.5 15 20 2.5 0 5 2.5 7.5 2.5 5 0 12.5-2.5 15-7.5l42.5-42.5 65 65c5 5 10 7.5 15 7.5s12.5-2.5 15-7.5l35-35c5-5 7.5-10 7.5-15s-2.5-12.5-7.5-15z"/> <path d="m847.5 665c-7.5-2.5-17.5-2.5-25 5l-42.5 42.5-65-65c-7.5-7.5-22.5-7.5-32.5 0l-35 35c-5 5-7.5 10-7.5 15s2.5 12.5 7.5 15l65 65-42.5 42.5c-7.5 7.5-7.5 17.5-5 25s12.5 15 20 15h152.5c12.5 0 22.5-10 22.5-22.5v-152.5c2.5-7.5-2.5-15-12.5-20z"/> <path d="m517.5 647.5c-7.5-7.5-22.5-7.5-32.5 0l-65 65-42.5-42.5c-7.5-7.5-17.5-7.5-25-5s-15 12.5-15 20v152.5c0 12.5 10 22.5 22.5 22.5h152.5c10 0 17.5-5 20-15 2.5-7.5 2.5-17.5-5-25l-42.5-42.5 65-65c5-5 7.5-10 7.5-15s-2.5-12.5-7.5-15z"/> </g> </svg> `
 const smallerIconSrc = ` <svg width="36" height="36" version="1.1" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg"> <g fill="#fff"> <path d="m670 555h160c10 0 17.5-5 20-15 2.5-7.5 2.5-17.5-5-25l-45-45 70-70c10-10 10-22.5 0-32.5l-35-35c-10-10-22.5-10-32.5 0l-72.5 67.5-45-45c-7.5-7.5-17.5-7.5-25-5s-15 12.5-15 20v160c0 15 10 25 25 25z"/> <path d="m540 350c-7.5-2.5-17.5-2.5-25 5l-45 45-70-67.5c-10-10-22.5-10-32.5 0l-35 35c-10 10-10 22.5 0 32.5l70 70-45 45c-7.5 7.5-7.5 17.5-5 25s12.5 15 20 15h160c12.5 0 22.5-10 22.5-22.5v-160c0-10-7.5-20-15-22.5z"/> <path d="m530 645h-160c-10 0-17.5 5-20 15-2.5 7.5-2.5 17.5 5 25l45 45-67.5 70c-10 10-10 22.5 0 32.5l35 35c5 5 10 7.5 15 7.5s12.5-2.5 15-7.5l70-70 45 45c5 5 10 7.5 15 7.5 2.5 0 5 0 10-2.5 7.5-2.5 15-12.5 15-20v-160c2.5-12.5-7.5-22.5-22.5-22.5z"/> <path d="m800 730 45-45c7.5-7.5 7.5-17.5 5-25s-12.5-15-20-15h-160c-12.5 0-22.5 10-22.5 22.5v160c0 10 5 17.5 15 20 2.5 0 5 2.5 10 2.5s12.5-2.5 15-7.5l45-45 70 70c5 5 10 7.5 15 7.5s12.5-2.5 15-7.5l35-35c10-10 10-22.5 0-32.5z"/> </g> </svg> `
@@ -65,9 +65,12 @@ function Widget() {
   }
 
   const customise = () => {
-    figma.showUI(__html__, { visible: true, height: 400, width: 200 })
+    figma.showUI(__html__, { visible: true, height: 400, width: 220 })
     figma.ui.postMessage({ type: 'customise', options: selectedOptions })
+    // console.log("options",selectedOptions)
   }
+
+  useStickable();
   
   usePropertyMenu(propertyMenu, ({ propertyName }) => {
     return new Promise( (resolve) => {
@@ -78,7 +81,7 @@ function Widget() {
         resolve()
       }
       if (propertyName === 'smaller') {
-        setSize(size*0.75)
+        setSize(size*(1/1.25))
         resolve()
       }
       figma.ui.onmessage = async (msg) => {

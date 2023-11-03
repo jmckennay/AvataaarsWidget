@@ -1,7 +1,7 @@
 {
   "name": "Avataaars",
-  "version": "1.0.1",
-  "description": "Avataaars Widget for Figjam",
+  "version": "2.0",
+  "description": "Avataaars Widget for Figma & Figjam",
   "scripts": {
     "test": "npm run tsc && npm run build",
     "format": "prettier --write .",
@@ -19,11 +19,15 @@
   "author": "James McKennay",
   "license": "MIT License",
   "dependencies": {
+    "@types/react-color": "^3.0.7",
+    "@types/reactcss": "^1.2.7",
     "react": "^17.0.0",
+    "react-color": "^2.19.3",
     "react-dom": "^17.0.0",
     "react-figma-plugin-ds": "^2.3.0",
     "react-icons": "^4.3.1",
-    "react-tooltip": "^4.2.21"
+    "react-tooltip": "^4.2.21",
+    "reactcss": "^1.2.3"
   },
   "devDependencies": {
     "@figma/plugin-typings": "*",
