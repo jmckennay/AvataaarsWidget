@@ -141,13 +141,8 @@
             "icon": "FaRegEye",
             "options": [
                 "default",
-                "close",
                 "closed",
                 "cry",
-                "default",
-                "dizzy",
-                "xDizzy",
-                "roll",
                 "eyeRoll",
                 "happy",
                 "hearts",
@@ -155,7 +150,8 @@
                 "squint",
                 "surprised",
                 "wink",
-                "winkWacky"
+                "winkWacky",
+                "xDizzy"
             ]
         },
         {
@@ -168,21 +164,14 @@
                 "angryNatural",
                 "default",
                 "defaultNatural",
-                "flat",
                 "flatNatural",
-                "raised",
                 "raisedExcited",
                 "raisedExcitedNatural",
-                "sad",
                 "sadConcerned",
                 "sadConcernedNatural",
-                "unibrow",
                 "unibrowNatural",
-                "up",
                 "upDown",
                 "upDownNatural",
-                "frown",
-                "frownNatural"
             ]
         },
         {
@@ -190,14 +179,12 @@
             "placeholder": "Mouth",
             "icon": "GiLips",
             "options": [
-                "random",
-                "concerned",
                 "default",
+                "concerned",
                 "disbelief",
                 "eating",
                 "grimace",
                 "sad",
-                "scream",
                 "screamOpen",
                 "serious",
                 "smile",
